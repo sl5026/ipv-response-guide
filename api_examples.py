@@ -1,6 +1,6 @@
 """
 
-Example code for loading ipv_response_guide.md as a system instruction
+Example code for loading guide/ipv_response_guide.md as a system instruction
 across Anthropic, OpenAI, and Google Gemini APIs.
 
 Before running:
@@ -17,7 +17,7 @@ Do not put API keys directly in this file.
 from pathlib import Path
 
 
-GUIDE_PATH = Path("ipv_response_guide.md")
+GUIDE_PATH = Path("guide/ipv_response_guide.md")
 
 
 def load_guide() -> str:
