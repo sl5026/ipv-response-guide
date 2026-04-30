@@ -200,7 +200,7 @@ The evaluation framework tests whether the LLM successfully followed the trauma-
 
 ## Evaluation Framework
 
-The evaluation framework tests whether the LLM successfully followed the trauma-informed, safety-aware guide. It is a guide-specific efficacy evaluation, not a comprehensive safety or mental health benchmark — for those, refer to [CAPE][3] (Conversational Agent for Psychotherapy Evaluation), MentalBench, and similar frameworks. Responses are scored across 16 criteria covering emotional validation, safety assessment, autonomy preservation, intersectional sensitivity, and AI-specific limitations.
+The evaluation framework tests whether the LLM successfully followed the trauma-informed, safety-aware guide. It is a guide-specific efficacy evaluation, not a comprehensive safety or mental health benchmark — for those, refer to CAPE (Conversational Agent for Psychotherapy Evaluation), MentalBench, and similar frameworks. Responses are scored across 16 criteria covering emotional validation, safety assessment, autonomy preservation, intersectional sensitivity, and AI-specific limitations.
 
 ### Evaluation Criteria
 
