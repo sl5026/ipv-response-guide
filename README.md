@@ -25,15 +25,16 @@ Some files are already included; others are planned for future versions.
 ipv-response-guide/
 ├── README.md
 ├── LICENSE                              # planned
-├── ipv_response_guide.md                # full response guide
-├── system_prompt_short.md               # compressed version for system prompts
-├── api_examples.py                      # loading the guide into LLM APIs
+├── api_examples.py                      # loading the guide into LLM APIs   
+├── guide/
+│   ├──ipv_response_guide.md             # full response guide
+│   └── system_prompt_short.md           # compressed version for system prompts            
 ├── docs/                                
 │   ├── sources_and_framework.md         # literature review and framework analysis
 │   └── limitations.md                   # planned limitations note
 └── eval/                                
     ├── vignettes.xlsx                   #  multi-turn test vignettes
-    └── scoring_rubric.md                # planned evaluation framework
+    └── scoring_rubric.md                #  guide-specific efficacy evaluation
 ```
 
 ## Intended Use
