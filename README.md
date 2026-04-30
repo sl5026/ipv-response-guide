@@ -21,18 +21,20 @@ It is therefore deficiencies in the human support infrastructure that lead to th
 
 Some files are already included; others are planned for future versions.
 
+```text
 ipv-response-guide/
 ├── README.md
-├── LICENSE
-├── ipv_response_guide.md            # Full response guide
-├── system_prompt_short.md           # Compressed version for system prompts
-├── api_examples.py                  # Loading the guide into LLM APIs
-├── docs/
-│   ├── sources_and_framework.md     # Literature review and framework analysis
-│   └── limitations.md              # What this guide can and cannot do
-└── eval/
-    ├── vignettes.xlsx               # Multi-turn test vignettes (cycle-of-violence)
-    └── scoring_rubric.md            # 16-criterion evaluation framework
+├── LICENSE                              # planned
+├── ipv_response_guide.md                # full response guide
+├── system_prompt_short.md               # compressed version for system prompts
+├── api_examples.py                      # loading the guide into LLM APIs
+├── docs/                                
+│   ├── sources_and_framework.md         # literature review and framework analysis
+│   └── limitations.md                   # planned limitations note
+└── eval/                                
+    ├── vignettes.xlsx                   #  multi-turn test vignettes
+    └── scoring_rubric.md                # planned evaluation framework
+```
 
 ## Intended Use
 
