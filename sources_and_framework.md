@@ -5,9 +5,8 @@ Domestic violence (DV) remains one of the most prevalent and underreported publi
 Research shows that survivors turn to digital and anonymous channels precisely because they feel safer than disclosing to a person (Storer et al., 2022). As interactions with LLMs have become increasingly common in everyday life, they have become the first point of contact for many people navigating distress, whether or not they were designed for that role. Two failure modes in this context raise specific concerns for me. First, a model that outright refuses to engage (over-refusal) might leaves a person without support at a critical moment; meanwhile, a model that responds with a generic crisis hotline referral (hotline dumping) may be unhelpful or even harmful if that hotline is itself overburdened and unavailable, as this author observed firsthand when attempting to use popular DV intervention app such as myPlan, which redirected to a national hotline that immediately terminated the interaction due to “capacity constraints”.
 
 
-**Literature Review**
-
 **Part I: The Pre-2021 Landscape**
+
 Before the introduction of LLMs, digital technologies had already proven an effective complement to traditional human support systems in reaching survivors of intimate partner violence. The most comprehensive synthesis of this pre-LLM era is Emezue, Chase, Udmuangpia, and Bloom's Campbell Systematic Review and meta-analysis, which examined 17 randomized controlled trials (RCTs) conducted between 2007 and 2021, covering 4,590 female IPV survivors (2022). 
 
 **1.1 Findings**
