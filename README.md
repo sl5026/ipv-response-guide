@@ -11,7 +11,7 @@ A portable trauma-informed response guide for LLMs responding to domestic violen
 
 ---
 
-##Motivations
+## Motivations
 
 General-purpose LLMs have often become a de facto support channel for people navigating domestic violence and intimate partner violence, even as professionals, citing the risk of inappropriate responses in high-stakes situations, have advised against using them for direct conversational support. Research shows that survivors turn to digital and anonymous channels because they feel safer than disclosing to a person (Storer, Nyerges, & Hamby, 2022). Self-administered computer screening outperforms face-to-face screening for IPV disclosure by 37% and paper-based screening by 23% (Emezue et al., 2022). The sense of not being judged and the ability to access support privately plays a central role in increasing survivors' willingness to engage. Another prevalent issue is availability. When survivors reach the end of a digital pathway and encounter a hotline that cannot take their call, a waitlist they cannot afford to sit on, or a service that does not exist in their area, what remains available is the LLM they were already talking to. As Siddals, Torous, and Coxon found in interviews with 19 individuals across 8 countries using generative AI chatbots for mental health, participants described the experience as an "emotional sanctuary" that felt safe, non-judgmental, and always available (2024). These users turned to LLMs because professional care was not accessible to them when they needed it.
 
@@ -56,46 +56,124 @@ This guide does not:
 
 ## Basic Usage
 
-The guide is a markdown file. Load it as the system instruction for any major LLM API:
+The guide is a Markdown file. It can be used in three main ways:
 
+1. Load the full guide as a system instruction in an API call.
+2. Upload or paste the guide into a consumer LLM tool, such as a Custom GPT, Claude Project, or Gemini Gem.
+3. Use the guide with a local/open-weight model, such as a Llama-family model through Ollama.
+
+### Option 1: Load the guide through an API
+
+The full guide can be loaded as the system instruction for major LLM APIs:
+
+```python
 from pathlib import Path
 
-system_prompt = Path("ipv_response_guide.md").read_text(encoding="utf-8")
+system_prompt = Path("guide/ipv_response_guide.md").read_text(encoding="utf-8")
+```
 
-# Anthropic
+#### Anthropic
+
+```python
 from anthropic import Anthropic
+
 resp = Anthropic().messages.create(
     model="claude-sonnet-4-6-20250514",
     max_tokens=1024,
     system=system_prompt,
     messages=[{"role": "user", "content": user_msg}]
 )
+```
 
-# OpenAI
+#### OpenAI
+
+```python
 from openai import OpenAI
-resp = OpenAI().chat.completions.create(
+
+client = OpenAI()
+
+resp = client.chat.completions.create(
     model="gpt-4o",
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_msg}
     ]
 )
+```
 
-# Google
+#### Google Gemini
+
+```python
 from google import genai
+
 client = genai.Client()
+
 resp = client.models.generate_content(
     model="gemini-2.5-flash",
     config={"system_instruction": system_prompt},
     contents=user_msg
 )
+```
 
-The same markdown file works across all three APIs — no reformatting needed. For consumer platforms, the guide content can be pasted into ChatGPT Custom GPTs (Instructions field), Gemini Gems, or Claude Projects.
+The same Markdown file works across these APIs with minimal reformatting. This repository does not provide API access; users need their own API keys or provider access to run these examples.
+
+### Option 2: Upload or paste the guide into a consumer LLM tool
+
+The guide can also be used without writing code by uploading or pasting one of the guide files into a consumer-facing LLM product.
+
+Recommended files:
+
+- Use `guide/ipv_response_guide.md` for the full version.
+- Use `guide/system_prompt_short.md` when the platform has limited instruction space.
+
+Possible uses include:
+
+- ChatGPT Custom GPTs: paste the short prompt into the Instructions field and upload the full guide as a knowledge file.
+- ChatGPT Projects: upload the guide file into the Project and add the short prompt as Project instructions.
+- Claude Projects: upload the guide file or paste the short version into project instructions.
+- Gemini Gems: paste the short version into the Gem instructions.
+
+This does not permanently change the behavior of the underlying model. The guide is only active in the specific custom tool, project, or conversation where it has been added.
+
+### Option 3: Use with local / open-weight models
+
+This guide can also be used with local or open-weight models, such as Llama-family models. In that case, users do not need commercial API access, but they do need local inference tooling such as Ollama, llama.cpp, vLLM, or Hugging Face Transformers.
+
+Example with Ollama:
+
+```bash
+ollama pull llama3.1
+```
+
+```python
+from pathlib import Path
+import requests
+
+system_prompt = Path("guide/ipv_response_guide.md").read_text(encoding="utf-8")
+
+user_msg = (
+    "My partner checks my phone and gets angry when I see my friends. "
+    "I don't know if I'm overreacting."
+)
+
+response = requests.post(
+    "http://localhost:11434/api/chat",
+    json={
+        "model": "llama3.1",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_msg},
+        ],
+        "stream": False,
+    },
+)
+
+print(response.json()["message"]["content"])
+```
+
+Local models can reduce dependence on paid APIs, but they do not automatically make the guide active in consumer AI products. The guide must still be intentionally loaded into the model or application.
 
 > **Note on model selection:** This guide should be tested across model tiers. Because the task depends heavily on instruction-following, tone control, and safety-rule compliance, smaller or mid-tier models may perform competitively with larger reasoning models in some cases, with lower cost and latency.
-
----
-
 ## Sources and Evidence Base
 
 This guide is grounded in:
