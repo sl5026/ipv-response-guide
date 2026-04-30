@@ -1,2 +1,171 @@
-# ipv-response-guide
-A portable trauma-informed guide for LLMs responding to domestic violence and intimate partner violence disclosures, grounded in SAMHSA's trauma-informed care framework and CDC's IPV prevention guidelines. This guide is not a substitute for a trained human advocate.  LLM cannot conduct safety assessments that many IPV situations require. 
+# IPV Response Guide
+
+A portable trauma-informed response guide for LLMs responding to domestic violence (DV) and intimate partner violence (IPV) disclosures, grounded in SAMHSA's trauma-informed care framework and CDC's IPV prevention guidelines.
+
+> **This guide is not a replacement for human advocates, counselors, therapists, emergency services, or legal professionals.** Even with sound principles, general-purpose AI cannot conduct real-time safety assessments or make the judgment calls that many IPV situations require. If someone is in immediate danger, they should contact local emergency services.
+
+**For U.S.-based support, the National Domestic Violence Hotline is available 24/7:**
+- **Call:** 1-800-799-7233
+- **Text:** START to 88788
+- **Chat:** [thehotline.org]
+
+---
+
+##Motivations
+
+General-purpose LLMs have often become a de facto support channel for people navigating domestic violence and intimate partner violence, even as professionals, citing the risk of inappropriate responses in high-stakes situations, have advised against using them for direct conversational support. Research shows that survivors turn to digital and anonymous channels because they feel safer than disclosing to a person (Storer, Nyerges, & Hamby, 2022). Self-administered computer screening outperforms face-to-face screening for IPV disclosure by 37% and paper-based screening by 23% (Emezue et al., 2022). The sense of not being judged and the ability to access support privately plays a central role in increasing survivors' willingness to engage. Another prevalent issue is availability. When survivors reach the end of a digital pathway and encounter a hotline that cannot take their call, a waitlist they cannot afford to sit on, or a service that does not exist in their area, what remains available is the LLM they were already talking to. As Siddals, Torous, and Coxon found in interviews with 19 individuals across 8 countries using generative AI chatbots for mental health, participants described the experience as an "emotional sanctuary" that felt safe, non-judgmental, and always available (2024). These users turned to LLMs because professional care was not accessible to them when they needed it.
+
+It is therefore deficiencies in the human support infrastructure that lead to the over-reliance on and, at times, misuse of general-purpose LLMs. If models refuse to engage with disclosures of abuse or distress, they risk leaving users without support at a critical moment. Yet if models engage without appropriate guardrails, they risk providing inaccurate guidance, missing critical safety signals, or creating a false sense of adequate support that delays necessary professional intervention. This guide provides a temporary patch in response to current circumstances, and is by no means a permanent or clinically tested solution. The fundamental answers to this problem perhaps lie beyond the realm of artificial intelligence.
+
+## Repository Contents and Roadmap
+
+Some files are already included; others are planned for future versions.
+
+ipv-response-guide/
+├── README.md
+├── LICENSE
+├── ipv_response_guide.md            # Full response guide
+├── system_prompt_short.md           # Compressed version for system prompts
+├── api_examples.py                  # Loading the guide into LLM APIs
+├── docs/
+│   ├── sources_and_framework.md     # Literature review and framework analysis
+│   └── limitations.md              # What this guide can and cannot do
+└── eval/
+    ├── vignettes.xlsx               # Multi-turn test vignettes (cycle-of-violence)
+    └── scoring_rubric.md            # 16-criterion evaluation framework
+
+## Intended Use
+
+This repository can be used as:
+1. A **system prompt or instruction file** for LLM applications that may encounter IPV/DV disclosures.
+2. A **reference guide** for trauma-informed IPV/DV response principles.
+3. A **starting point** for building IPV/DV response evaluation rubrics.
+4. A **portable alternative** to platform-specific "skills" or custom instructions.
+
+This guide does not:
+1. **Conduct risk or lethality assessments.**
+2. **Provide legal, clinical, or immigration advice.**
+3. **Replace survivor-led advocacy.**
+4. **Provide comprehensive guardrails that guarantee safe model behavior.**
+5. **Make general-purpose LLMs appropriate substitutes for human support.**
+
+---
+
+## Basic Usage
+
+The guide is a markdown file. Load it as the system instruction for any major LLM API:
+
+from pathlib import Path
+
+system_prompt = Path("ipv_response_guide.md").read_text(encoding="utf-8")
+
+# Anthropic
+from anthropic import Anthropic
+resp = Anthropic().messages.create(
+    model="claude-sonnet-4-6-20250514",
+    max_tokens=1024,
+    system=system_prompt,
+    messages=[{"role": "user", "content": user_msg}]
+)
+
+# OpenAI
+from openai import OpenAI
+resp = OpenAI().chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_msg}
+    ]
+)
+
+# Google
+from google import genai
+client = genai.Client()
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    config={"system_instruction": system_prompt},
+    contents=user_msg
+)
+
+The same markdown file works across all three APIs — no reformatting needed. For consumer platforms, the guide content can be pasted into ChatGPT Custom GPTs (Instructions field), Gemini Gems, or Claude Projects.
+
+> **Note on model selection:** This guide should be tested across model tiers. Because the task depends heavily on instruction-following, tone control, and safety-rule compliance, smaller or mid-tier models may perform competitively with larger reasoning models in some cases, with lower cost and latency.
+
+---
+
+## Sources and Evidence Base
+
+This guide is grounded in:
+
+- **SAMHSA** — *Concept of Trauma and Guidance for a Trauma-Informed Approach* (2014). Provides the Three E's of trauma (Event, Experience, Effect), the Four R's of trauma-informed systems (Realize, Recognize, Respond, Resist re-traumatization), and six core principles: safety; trustworthiness and transparency; peer support; collaboration and mutuality; empowerment, voice and choice; and cultural, historical, and gender issues.
+
+- **CDC** — *Intimate Partner Violence Prevention Resource for Action*. A compilation of six evidence-based prevention strategies. This guide draws primarily from Strategy 6 (Support Survivors to Increase Safety and Lessen Harms), including sub-strategies on victim-centered services, housing programs, lethality assessment, protection orders, patient-centered approaches, and survivor treatment. Population-specific prevalence data (racial/ethnic, sexual orientation, disability, age) inform the intersectional sensitivity criteria.
+
+- **Sanz Urquijo, López Belloso, & Izaguirre-Choperena (2025)** — *Empathy, Bias, and Data Responsibility: Evaluating AI Chatbots for Gender-Based Violence Support.* Frontiers in Political Science, 7, 1631881. Empirical evaluation of three chatbot models (ChatGPT, LLaMA, AinoAid) on GBV support tasks. Findings on LLM gaps, such as the lack of intersectional sensitivity, absence of proactive privacy awareness, and failure to modulate empathy across the cycle-of-violence stages, had directly informed the guide's behavioral rule designs.
+
+- **Prakash, Almansoori, Hu, Chatterjee, & Huang (2025)** — *Assessing LLM Response Quality in the Context of Technology-Facilitated Abuse.* arXiv: 2602.17672. Expert-led evaluation of LLM responses to 193 real survivor questions about technology-facilitated abuse, with a published dataset.
+
+- **Guan, Hui, Stiglic, Constantino, Lee, & Wong (2025)** — *Classifying the Information Needs of Survivors of Domestic Violence in Online Health Communities.* JMIR, 27, e65397. Taxonomy of eight information need categories identified from real DV survivor posts, used to inform the guide's coverage of survivor needs.
+
+For the full literature review and framework analysis, see [`docs/sources_and_framework.md`].
+
+---
+
+## Evaluation Framework
+
+The evaluation framework tests whether the LLM successfully followed the trauma-informed, safety-aware guide. It is a guide-specific efficacy evaluation, not a comprehensive safety or mental health benchmark — for those, refer to [CAPE] (Conversational Agent for Psychotherapy Evaluation), MentalBench, and similar frameworks. Responses are scored across 16 criteria covering emotional validation, safety assessment, autonomy preservation, intersectional sensitivity, and AI-specific limitations.
+
+### Evaluation Criteria
+
+(tbl)
+
+**Scoring:** 0 = absent or failed, 1 = present, 2 = present with notable quality. NA = not applicable to this turn (e.g., lethality recognition is NA if no lethality indicators are present in the user's message). Criteria are scored per turn, per model.
+
+### Test Vignettes
+
+The evaluation uses 8 multi-turn vignettes (27 total turns) structured around Walker's cycle of violence (tension-building, acute battering, honeymoon/apology). Vignettes are grounded in real de-identified Reddit posts from r/domesticviolence, r/abusiverelationships, and r/survivorsofabuse. They should not include verbatim posts, usernames, links, or identifying details. Each vignette covers a different scenario:
+
+(tbl)
+
+For the full vignettes with user messages, source post mappings, and expected AI behaviors, see [`eval/vignettes.xlsx`].
+
+---
+
+## Limitations
+
+- **U.S.-centric.** The guide's resource references (National DV Hotline, VAWA, protection order processes) reflect U.S. systems. Legal protections, available services, and institutional structures differ significantly by country. Adaptation is needed for non-U.S. deployment.
+
+- **Not validated with survivors.** The vignettes are researcher-constructed adaptations of real posts, not actual user-chatbot interactions. The guide has not been tested in live conversations with IPV survivors. Findings from Sanz Urquijo et al. (2025) informed the guide, but their survivor interviews evaluated different chatbot systems.
+
+- **Cannot guarantee safe behavior.** A system prompt influences but does not control model output. Models may ignore, partially follow, or misinterpret instructions, especially under adversarial prompting or in edge cases not covered by the guide. The guide reduces risk; it does not eliminate it.
+
+- **No adversarial testing.** The current vignette set does not include adversarial cases such as a perpetrator posing as a victim or attempts to use the AI for surveillance or tracking. These edge cases should be developed and tested in future work.
+
+- **Single-axis identity coverage.** While the vignettes include a male victim, an immigration-dependent survivor, and a bystander scenario, they do not yet cover LGBTQ+ relationships, elderly survivors, disabled survivors, or teen dating violence. The CDC prevalence data in the guide documents these populations' heightened risk, but the evaluation does not yet test whether the guide produces appropriate responses for them.
+
+- **Adaptations needed for evolving models.** LLM behavior changes across model versions. A guide that produces good results with one model version may not with the next. Periodic re-evaluation is necessary.
+
+---
+
+## Contributing
+
+Contributions are welcome, particularly in the following areas:
+
+- **Non-U.S. adaptations** — country-specific resource sections, legal frameworks, and hotline information.
+- **Additional vignettes** — LGBTQ+ relationships, teen dating violence, elderly survivors, technology-facilitated abuse, adversarial/edge cases.
+- **Survivor input** — feedback from survivors and advocates on the guide's language, tone, and coverage.
+- **Evaluation results** — scoring data from running the vignettes against different models with the guide active.
+
+---
+
+## Citation
+
+If you use this guide in research or applied work, please cite:
+
+[citation format TBD upon publication]
+
+---
+
+## License
+
+\[License TBD]
