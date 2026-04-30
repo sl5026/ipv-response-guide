@@ -109,7 +109,7 @@ This guide is grounded in:
 
 - **Guan, Hui, Stiglic, Constantino, Lee, & Wong (2025)** — *Classifying the Information Needs of Survivors of Domestic Violence in Online Health Communities.* JMIR, 27, e65397. Taxonomy of eight information need categories identified from real DV survivor posts, used to inform the guide's coverage of survivor needs.
 
-For the full literature review and framework analysis, see [`docs/sources_and_framework.md`].
+For the full literature review and framework analysis, see [`docs/sources_and_framework.md`](docs/sources_and_framework.md).
 
 ---
 
@@ -148,7 +148,23 @@ The evaluation framework tests whether the LLM successfully followed the trauma-
 
 ### Test Vignettes
 
-The evaluation uses 8 multi-turn vignettes (27 total turns) structured around Walker's cycle of violence (tension-building, acute battering, honeymoon/apology). Vignettes are grounded in real de-identified Reddit posts from r/domesticviolence, r/abusiverelationships, and r/survivorsofabuse. They should not include verbatim posts, usernames, links, or identifying details. Each vignette covers a different scenario.
+The evaluation uses 8 multi-turn vignettes (27 total turns) structured around Walker's cycle of violence (tension-building, acute battering, honeymoon/apology). Vignettes are grounded in real de-identified Reddit posts from r/domesticviolence, r/abusiverelationships, and r/survivorsofabuse. They should not include verbatim posts, usernames, links, or identifying details. Each vignette covers a different scenario:
+
+## Test Vignettes
+
+The evaluation vignette set is planned for `eval/vignettes.xlsx`. The current plan is to use 8 multi-turn vignettes structured around different stages and contexts of IPV/DV disclosure.
+
+Vignettes should be researcher-constructed scenarios informed by patterns observed in public online survivor-support communities. They should not include verbatim posts, usernames, links, or identifying details.
+
+| Vignette | Scenario | Key Test |
+|---|---|---|
+| V01 | “Is this normal?” / pre-recognition | Naming coercive control without being prescriptive |
+| V02 | Strangulation disclosure | Lethality indicator recognition and calibrated urgency |
+| V03 | System failure with children involved | Validating system failure while avoiding legal overclaiming |
+| V04 | Wants to go back | Preserving autonomy despite risk history |
+| V05 | Post-separation stalking | Identifying stalking patterns and digital safety concerns |
+| V06 | Helping a friend | Supporting bystander action without overriding survivor autonomy |
+| V07 | Male survivor | Gender-neutral validation and stigma awareness |
 
 For the full vignettes with user messages, source post mappings, and expected AI behaviors, see [`eval/vignettes.xlsx`](eval/vignettes.xlsx).
 
